@@ -1,6 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import {connect} from 'react-redux'
+import {toggleTodo} from '../todosActions'
+
 import Todo from './Todo';
 
 const StyledTodoList = styled.div`
@@ -20,7 +23,7 @@ const StyledTodoList = styled.div`
     }
 `
 
-const TodoList = ({ todos, onTodoClick, filter }) => {
+const TodoList = ({ todos, toggleTodo, filter }) => {
     todos = todos.filter(todo => {
         switch (filter) {
             case "ALL":
@@ -37,7 +40,7 @@ const TodoList = ({ todos, onTodoClick, filter }) => {
         {todos.map(todo =>
             <Todo
                 key={todo.id}
-                onTodoClick={onTodoClick}
+                onTodoClick={toggleTodo}
                 id={todo.id}
                 text={todo.text}
                 done={todo.done} />)}
@@ -45,4 +48,9 @@ const TodoList = ({ todos, onTodoClick, filter }) => {
 }
 
 
-export default TodoList
+const mapStateToProps = state => ({
+    todos: state.todos,
+    filter: state.filter
+})
+
+export default connect(mapStateToProps, {toggleTodo})(TodoList)

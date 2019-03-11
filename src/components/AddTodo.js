@@ -1,5 +1,8 @@
 import React from 'react'
+import {connect} from 'react-redux'
 import styled from 'styled-components'
+
+import {addTodo} from '../todosActions'
 
 const StyledInput = styled.input`
     /* border: none; */
@@ -12,14 +15,14 @@ const StyledInput = styled.input`
     }
 `
 
-const AddTodo = ({onAddTodo}) => {
+const AddTodo = props => {
     const keyPressed = e => {
         if (e.which === 13) {
-            onAddTodo(e.target.value)
+            props.addTodo(e.target.value)
             e.target.value = ""
         }
     }
     return <StyledInput placeholder="Add todo" type="input" onKeyPress={keyPressed} />
 }
 
-export default AddTodo
+export default connect(null, {addTodo})(AddTodo)

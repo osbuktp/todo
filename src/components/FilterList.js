@@ -1,6 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import {connect} from 'react-redux'
+import {changeFilter} from '../filterActions'
+
 import Filter from './Filter'
 
 const StyledFilterList = styled.div`
@@ -9,11 +12,17 @@ const StyledFilterList = styled.div`
     margin-bottom: 10px;
 `
 
-const FilterList = ({ currentFilter, filters, onFilterChange }) => (
+const filters = ["ALL", "DONE", "PENDING"]
+
+const FilterList = ({ currentFilter, changeFilter }) => (
     <StyledFilterList>
         {filters.map(filter => 
-        <Filter active={filter === currentFilter} key={filter} onClick={() => onFilterChange(filter)}>{filter}</Filter>)}
+        <Filter active={filter === currentFilter} key={filter} onClick={() => changeFilter(filter)}>{filter}</Filter>)}
     </StyledFilterList>
 )
 
-export default FilterList
+const mapStateToProps = state => ({
+    currentFilter: state.filter
+})
+
+export default connect(mapStateToProps, {changeFilter})(FilterList)
